@@ -7,6 +7,7 @@ import platform
 import html
 import math
 import datetime as dt
+import sys
 
 try:
     # Python 2.6-2.7
@@ -144,6 +145,7 @@ def clearSplash ():
 
 response1 = ""
 response2 = ""
+tooMany = 100
 
 clearSplash()
 print("First Dilbert Comic:  04-16-1989")
@@ -160,7 +162,7 @@ try:
     startDate = response1.split("-")
 except ValueError:
     print("Not valid date.")
-    exit
+    sys.exit()
 
 if response2 == "":
     clearSplash()
@@ -174,13 +176,19 @@ try:
     endDate = response2.split("-")
 except ValueError:
     print("Not valid date.")
-    exit
+    sys.exit()
 
 startJDate = date_to_jd(int(startDate[2]), int(startDate[0]), int(startDate[1]))
 endJDate = date_to_jd(int(endDate[2]), int(endDate[0]), int(endDate[1]))
 difference = endJDate - startJDate + 1
 
 clearSplash()
+
+if (difference >= tooMany):
+    warning = input("Are you SURE you want to download " + str(int(difference)) + " comics? (y/n): ")
+    if warning[0:1].lower() != "y".lower():
+        # We didn't get "y" as our response - exit
+        sys.exit()
 
 if (difference == 1):
     print("Downloading " + response1)
