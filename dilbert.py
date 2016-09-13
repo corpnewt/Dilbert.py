@@ -147,6 +147,15 @@ response1 = ""
 response2 = ""
 tooMany = 100
 
+# Get some preliminary values
+todayDate = dt.datetime.today().strftime("%m-%d-%Y")
+tDate = todayDate.split("-")
+tJDate = date_to_jd(int(tDate[2]), int(tDate[0]), int(tDate[1]))
+
+firstDate = "04-16-1989"
+fDate = firstDate.split("-")
+fJDate = date_to_jd(int(fDate[2]), int(fDate[0]), int(fDate[1]))
+
 clearSplash()
 print("First Dilbert Comic:  04-16-1989")
 print("")
@@ -180,7 +189,37 @@ except ValueError:
 
 startJDate = date_to_jd(int(startDate[2]), int(startDate[0]), int(startDate[1]))
 endJDate = date_to_jd(int(endDate[2]), int(endDate[0]), int(endDate[1]))
-difference = endJDate - startJDate + 1
+
+outOfRange = False
+
+# Check date ranges
+if startJDate < fJDate:
+    outOfRange = True
+if startJDate > tJDate:
+    outOfRange = True
+if endJDate < fJDate:
+    outOfRange = True
+if endJDate > tJDate:
+    outOfRange = True
+
+if outOfRange:
+    clearSplash()
+    print("Date(s) out of range. Must be between " + firstDate + " and " + todayDate)
+    print("")
+    sys.exit()
+
+difference = endJDate - startJDate
+
+if difference < 0:
+    # We've got our dates backwards - reverse them
+    tempJ = startJDate
+    startJDate = endJDate
+    endJDate = tempJ
+    # Flip the difference polarity
+    difference *= -1
+
+# Increment difference to include the end date
+difference += 1
 
 clearSplash()
 
