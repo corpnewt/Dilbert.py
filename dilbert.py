@@ -6,6 +6,7 @@ import os
 import platform
 import html
 import math
+import datetime as dt
 
 try:
     # Python 2.6-2.7
@@ -134,27 +135,50 @@ def getImageTitle ( html ):
 # Start of script                                                       #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+response1 = ""
+response2 = ""
+
 cls()
-response = input("Enter the start date (MM-DD-YYYY): ")
+print("  ###                           ###")
+print(" # Dilbert Downloader - CorpNewt #")
+print("###                           ###")
+print("")
+print("First Dilbert Comic:  04-16-1989")
+print("")
+print("Just press [enter] for today")
+print("")
+response1 = input("Enter the start date (MM-DD-YYYY): ")
+
+if response1 == "":
+    response1=dt.datetime.today().strftime("%m-%d-%Y")
+    response2=response1
+
 try:
-    startDate = response.split("-")
+    startDate = response1.split("-")
+except ValueError:
+    print("Not valid date.")
+    exit
+
+if response2 == "":
+    response2 = input("Enter the end date (MM-DD-YYY): ")
+
+try:
+    endDate = response2.split("-")
 except ValueError:
     print("Not valid date.")
     exit
 
 startJDate = date_to_jd(int(startDate[2]), int(startDate[0]), int(startDate[1]))
-
-response = input("Enter the end date (MM-DD-YYY): ")
-try:
-    endDate = response.split("-")
-except ValueError:
-    print("Not valid date.")
-    exit
-
 endJDate = date_to_jd(int(endDate[2]), int(endDate[0]), int(endDate[1]))
 difference = endJDate - startJDate + 1
 
-print(str(int(difference)) + " days to download...")
+cls()
+print("  ###                           ###")
+print(" # Dilbert Downloader - CorpNewt #")
+print("###                           ###")
+print("")
+print(str(int(difference)) + " day(s) to download...")
+print("")
 
 while (startJDate <= endJDate):
     # Let's get the date - and parse/download our image
@@ -203,3 +227,10 @@ while (startJDate <= endJDate):
 
     # Print newline
     print("\n")
+
+cls()
+print("  ###                           ###")
+print(" # Dilbert Downloader - CorpNewt #")
+print("###                           ###")
+print("")
+print("Done.")
