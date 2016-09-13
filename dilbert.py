@@ -182,13 +182,17 @@ difference = endJDate - startJDate + 1
 
 clearSplash()
 
-if (difference == 0):
+if (difference == 1):
     print("Downloading " + response1)
 else:
     print("Downloading from " + response1 + " to " + response2)
     print(str(int(difference)) + " day(s) to download...")
 
 print("")
+
+dlCount = 0
+currentImage = 1
+skippedImages = 0
 
 while (startJDate <= endJDate):
     # Let's get the date - and parse/download our image
@@ -214,6 +218,12 @@ while (startJDate <= endJDate):
     # Get URL
     getURL = "http://dilbert.com/strip/" + str(gDate[0]) + "-" + mDir + "-" + dName
 
+    clearSplash()
+
+    dateString = "{}-{}-{}".format(mDir, dName, yDir)
+
+    print("Image " + str(currentImage) + " of " + str(int(difference)) + " - " + dateString)
+    print("")
     print("Getting source from: " + getURL)
 
     # Retrieve HTML and other info
@@ -228,15 +238,22 @@ while (startJDate <= endJDate):
     # Check if image exists
     if os.path.isfile(imageDest):
         print("ERROR:  Already Exists - skipping.")
+        skippedImages += 1
     else:
         # Download image
         downloadImageTo( imageURL, imageDest)
+        dlCount += 1
 
     # Increment Counter
     startJDate += 1
+    currentImage += 1
 
     # Print newline
     print("\n")
 
 clearSplash()
+print(str(dlCount) + " of " + str(int(difference)) + " images downloaded.")
+print(str(skippedImages) + " image(s) skipped.")
+print("")
 print("Done.")
+print("")
