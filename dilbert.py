@@ -130,6 +130,13 @@ def getImageTitle ( html ):
     #print(h.unescape(imageTitle))
     return imageTitle.replace('"', '').strip()
 
+def clearSplash ():
+    cls()
+    print("  ###                           ###")
+    print(" # Dilbert Downloader - CorpNewt #")
+    print("###                           ###")
+    print("")
+
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Start of script                                                       #
@@ -138,11 +145,7 @@ def getImageTitle ( html ):
 response1 = ""
 response2 = ""
 
-cls()
-print("  ###                           ###")
-print(" # Dilbert Downloader - CorpNewt #")
-print("###                           ###")
-print("")
+clearSplash()
 print("First Dilbert Comic:  04-16-1989")
 print("")
 print("Just press [enter] for today")
@@ -160,7 +163,12 @@ except ValueError:
     exit
 
 if response2 == "":
+    clearSplash()
+    print("Start date: " + response1)
+    print("")
     response2 = input("Enter the end date (MM-DD-YYY): ")
+    if response2 == "":
+        response2=dt.datetime.today().strftime("%m-%d-%Y")
 
 try:
     endDate = response2.split("-")
@@ -172,12 +180,14 @@ startJDate = date_to_jd(int(startDate[2]), int(startDate[0]), int(startDate[1]))
 endJDate = date_to_jd(int(endDate[2]), int(endDate[0]), int(endDate[1]))
 difference = endJDate - startJDate + 1
 
-cls()
-print("  ###                           ###")
-print(" # Dilbert Downloader - CorpNewt #")
-print("###                           ###")
-print("")
-print(str(int(difference)) + " day(s) to download...")
+clearSplash()
+
+if (difference == 0):
+    print("Downloading " + response1)
+else:
+    print("Downloading from " + response1 + " to " + response2)
+    print(str(int(difference)) + " day(s) to download...")
+
 print("")
 
 while (startJDate <= endJDate):
@@ -228,9 +238,5 @@ while (startJDate <= endJDate):
     # Print newline
     print("\n")
 
-cls()
-print("  ###                           ###")
-print(" # Dilbert Downloader - CorpNewt #")
-print("###                           ###")
-print("")
+clearSplash()
 print("Done.")
