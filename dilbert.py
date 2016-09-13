@@ -288,7 +288,8 @@ while (startJDate <= endJDate):
         skippedImages += 1
     else:
         # Download image
-        downloadImageTo( imageURL, imageDest)
+        downloadImageTo( imageURL, imageDest )
+        # downloadWithProgress( imageURL, imageDest )
         dlCount += 1
 
     # Increment Counter
